@@ -47,7 +47,7 @@ public class SignUp {
                 }
             }
         }catch (Exception e){
-            System.out.println("숫자 쓰라고 시발");
+            System.out.println("예외 발생");
             InputAge();
         }
 
