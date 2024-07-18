@@ -41,41 +41,57 @@ public class SignUp {
         System.out.print("수정할 아이디를 입력하시오: ");
         int id = sc.nextInt();
         sc.nextLine();
+        try {
+            if (MemberInfo.containsKey(id)) {
+                System.out.println("\n수정할 정보를 입력해 주세요.");
+                InputName();
+                MemberInfo.get(id).name = this.name;
+                InputAge();
+                MemberInfo.get(id).age = this.age;
+                InputEmail();
+                MemberInfo.get(id).email = this.email;
+                InputAddress();
+                MemberInfo.get(id).address = this.address;
 
-        if(id < MemberInfo.size()) {
-            System.out.println("\n수정할 정보를 입력해 주세요.");
-            InputName();
-            MemberInfo.get(id).name = this.name;
-            InputAge();
-            MemberInfo.get(id).age = this.age;
-            InputEmail();
-            MemberInfo.get(id).email = this.email;
-            InputAddress();
-            MemberInfo.get(id).address = this.address;
-
-            System.out.println("\n회원 정보 수정이 완료 되었습니다.\n");
-            SelectMenu.print();
-        } else {
-            System.out.println("\n존재하지 않는 ID 입니다.\n");
-            revision();
+                System.out.println("\n회원 정보 수정이 완료 되었습니다.\n");
+                SelectMenu.print();
+            } else {
+                System.out.println("\n존재하지 않는 ID 입니다.\n");
+                revision();
+            }
+            }catch (Exception e){
+                System.out.println("\n존재하지 않는 ID 입니다.\n");
+                revision();
+            }
         }
-    }
 
+
+    // LinkedHashMap을 활용하기 위한 저장 참조 메서드
     public void addInfo(int id, SignUp sign){
         MemberInfo.put(id, sign);
     }
 
+    // 회원 정보 확인
     public void CheckInfo() {
         System.out.print("확인하려는 회원 정보의 ID를 입력하시오: ");
         int num = sc.nextInt();
-        sc.nextInt();
-
-        System.out.printf("이름: %s\t나이: %s%n이메일: %s\t주소: %s%n",MemberInfo.get(num).name,MemberInfo.get(num).age,
-                MemberInfo.get(num).email,MemberInfo.get(num).address);
+        try {
+            if (MemberInfo.containsKey(num)) {
+                System.out.printf("이름: %s\t나이: %s%n이메일: %s\t주소: %s%n", MemberInfo.get(num).name, MemberInfo.get(num).age,
+                        MemberInfo.get(num).email, MemberInfo.get(num).address);
+            }else{
+                System.out.println("존재하지 않는 ID입니다.");
+                CheckInfo();
+            }
+        }catch (Exception e){
+            System.out.println("존재하지 않는 ID입니다.");
+            CheckInfo();
+        }
 
         SelectMenu.print();
     }
 
+    // 회원 탈퇴
     public void DeleteInfo() {
         System.out.print("삭제할 아이디를 입력하시오: ");
         int id = sc.nextInt();
@@ -104,6 +120,7 @@ public class SignUp {
         }
     }
 
+    // 회원 정보 입력 및 유효성 검사 결과에 따른 반복
     public void InputName() {
         System.out.print("이름을 입력하시오: ");
         this.name = sc.nextLine();
