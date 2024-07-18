@@ -68,6 +68,8 @@ public class SignUp {
     public void CheckInfo() {
         System.out.print("확인하려는 회원 정보의 ID를 입력하시오: ");
         int num = sc.nextInt();
+        sc.nextInt();
+
         System.out.printf("이름: %s\t나이: %s%n이메일: %s\t주소: %s%n",MemberInfo.get(num).name,MemberInfo.get(num).age,
                 MemberInfo.get(num).email,MemberInfo.get(num).address);
 
@@ -78,6 +80,7 @@ public class SignUp {
         System.out.print("삭제할 아이디를 입력하시오: ");
         int id = sc.nextInt();
         sc.nextLine();
+
         try {
             if (MemberInfo.containsKey(id)) {
                 System.out.print("삭제할 아이디와 일치하는 이름을 입력하시오: ");
@@ -117,7 +120,7 @@ public class SignUp {
     public void InputID() {
         System.out.print("아이디을 입력하시오(1~100): ");
         this.id = sc.nextInt();
-
+        sc.nextLine();
     }
 
     public void InputAge() {
@@ -160,7 +163,7 @@ public class SignUp {
             if (ValidateAddress() && this.address.charAt(this.address.length()-1) == '구') { break;
             } else {
                 System.out.println("옳바른 주소가 아닙니다.");
-                InputAge();
+                InputAddress();
             }
         }
     }
@@ -188,6 +191,10 @@ public class SignUp {
         Pattern pattern = Pattern.compile("^[가-힣]{2,5}$");
         Matcher matcher = pattern.matcher(this.address);
         return matcher.matches();
+    }
+
+    void initializeConsole() {
+        System.out.print("\n".repeat(50));
     }
 }
 

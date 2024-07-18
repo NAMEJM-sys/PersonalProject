@@ -18,6 +18,7 @@ public class SelectMenu {
         switch (selectNum) {
             case 1 : break;
             case 2 :
+                signUp.initializeConsole();
                 signUp.InputInformation();
                 break;
             case 3 :
