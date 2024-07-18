@@ -21,13 +21,15 @@ public class SelectMenu {
                 signUp.InputInformation();
                 break;
             case 3 :
-                System.out.print("확인하려는 회원 정보의 ID를 입력하시오: ");
-                int num = sc.nextInt();
-                System.out.printf("이름: %s\t나이: %s%n이메일: %s\t주소: %s%n",SignUp.MemberInfo.get(num).name,SignUp.MemberInfo.get(num).age,
-                        SignUp.MemberInfo.get(num).email,SignUp.MemberInfo.get(num).address);
+                signUp.CheckInfo();
                 break;
-            case 4 : break;
-            case 5 : break;
+            case 4 :
+                signUp.revision();
+                break;
+            case 5 :
+                signUp.DeleteInfo();
+                break;
+
             default:
         }
     }

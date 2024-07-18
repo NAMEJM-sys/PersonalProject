@@ -1,5 +1,6 @@
 package Membership_Management;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -11,8 +12,9 @@ public class SignUp {
     String age;
     String email;
     String address;
+    int id;
     Scanner sc = new Scanner(System.in);
-    public static List<SignUp> MemberInfo = new ArrayList<SignUp>();
+    public static LinkedHashMap<Integer, SignUp> MemberInfo = new LinkedHashMap<>();
 
     public SignUp() {}
     public SignUp(String name, String age, String email, String address){
@@ -23,12 +25,86 @@ public class SignUp {
     }
 
     public void InputInformation() {
-        try {
-
-        } catch (Exception e){
-
-        }
+        SignUp signUp = new SignUp();
+        InputID();
         InputName();
+        InputAge();
+        InputEmail();
+        InputAddress();
+        addInfo(this.id, new SignUp(this.name, this.age, this.email, this.address));
+
+        System.out.println("회원가입이 완료 되었습니다.");
+        SelectMenu.print();
+    }
+
+    public void revision() {
+        System.out.print("수정할 아이디를 입력하시오: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        if(id < MemberInfo.size()) {
+            System.out.println("\n수정할 정보를 입력해 주세요.");
+            InputName();
+            MemberInfo.get(id).name = this.name;
+            InputAge();
+            MemberInfo.get(id).age = this.age;
+            InputEmail();
+            MemberInfo.get(id).email = this.email;
+            InputAddress();
+            MemberInfo.get(id).address = this.address;
+
+            System.out.println("\n회원 정보 수정이 완료 되었습니다.\n");
+            SelectMenu.print();
+        } else {
+            System.out.println("\n존재하지 않는 ID 입니다.\n");
+            revision();
+        }
+    }
+
+    public void addInfo(int id, SignUp sign){
+        MemberInfo.put(id, sign);
+    }
+
+    public void CheckInfo() {
+        System.out.print("확인하려는 회원 정보의 ID를 입력하시오: ");
+        int num = sc.nextInt();
+        System.out.printf("이름: %s\t나이: %s%n이메일: %s\t주소: %s%n",MemberInfo.get(num).name,MemberInfo.get(num).age,
+                MemberInfo.get(num).email,MemberInfo.get(num).address);
+
+        SelectMenu.print();
+    }
+
+    public void DeleteInfo() {
+        System.out.print("삭제할 아이디를 입력하시오: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        try {
+            if (MemberInfo.containsKey(id)) {
+                System.out.print("삭제할 아이디와 일치하는 이름을 입력하시오: ");
+                String name = sc.nextLine();
+
+                if (MemberInfo.get(id).name.equals(name)) {
+                    MemberInfo.remove(id);
+                    System.out.println("회원 정보가 삭제되었습니다.");
+                    SelectMenu.print();
+                } else {
+                    System.out.println("아이디의 이름 정보가 일치하지 않습니다.");
+                    DeleteInfo();
+                }
+            } else {
+                System.out.println("존재하지 않는 ID 입니다.");
+                SelectMenu.print();
+            }
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 ID 입니다.");
+            SelectMenu.print();
+        }
+    }
+
+    public void InputName() {
+        System.out.print("이름을 입력하시오: ");
+        this.name = sc.nextLine();
+
         while (true) {
             if (ValidateName()) { break;
             } else {
@@ -36,9 +112,19 @@ public class SignUp {
                 InputName();
             }
         }
+    }
+
+    public void InputID() {
+        System.out.print("아이디을 입력하시오(1~100): ");
+        this.id = sc.nextInt();
+
+    }
+
+    public void InputAge() {
+        System.out.print("나이를 입력하시오: ");
+        this.age = sc.nextLine();
 
         try {
-            InputAge();
             while (true) {
                 if (ValidateAge() && this.age.charAt(0) != '0') { break;
                 } else {
@@ -51,7 +137,12 @@ public class SignUp {
             InputAge();
         }
 
-        InputEmail();
+    }
+
+    public void InputEmail() {
+        System.out.print("E-mail 을(를) 입력하시오: ");
+        this.email = sc.nextLine();
+
         while (true) {
             if (ValidateEmail()) { break;
             } else {
@@ -59,8 +150,12 @@ public class SignUp {
                 InputEmail();
             }
         }
+    }
 
-        InputAddress();
+    public void InputAddress() {
+        System.out.print("주소(거주 구)를 입력하시오: ");
+        this.address = sc.nextLine();
+
         while (true) {
             if (ValidateAddress() && this.address.charAt(this.address.length()-1) == '구') { break;
             } else {
@@ -68,36 +163,7 @@ public class SignUp {
                 InputAge();
             }
         }
-
-        MemberInfo.add(new SignUp(this.name, this.age, this.email, this.address));
-        System.out.println("\n회원가입이 완료 되었습니다.");
-        SelectMenu.print();
-
     }
-
-
-    public void InputName() {
-        System.out.print("이름을 입력하시오: ");
-        this.name = sc.nextLine();
-    }
-
-    public void InputAge() {
-        System.out.print("나이를 입력하시오: ");
-        this.age = sc.nextLine();
-        // try-catch
-    }
-
-    public void InputEmail() {
-        System.out.print("E-mail 을(를) 입력하시오: ");
-        this.email = sc.nextLine();
-    }
-
-    public void InputAddress() {
-        System.out.print("주소(거주 구)를 입력하시오: ");
-        this.address = sc.nextLine();
-    }
-
-
 
 
     public boolean ValidateName() {
@@ -124,3 +190,4 @@ public class SignUp {
         return matcher.matches();
     }
 }
+
