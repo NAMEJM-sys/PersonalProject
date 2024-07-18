@@ -1,10 +1,9 @@
-package Membership_Management;
-import java.util.ArrayList;
+package Membership_Management_id_Index;
+
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.List;
 
 
 public class SignUp {
@@ -59,11 +58,11 @@ public class SignUp {
                 System.out.println("\n존재하지 않는 ID 입니다.\n");
                 revision();
             }
-            }catch (Exception e){
-                System.out.println("\n존재하지 않는 ID 입니다.\n");
-                revision();
-            }
+        }catch (Exception e){
+            System.out.println("\n존재하지 않는 ID 입니다.\n");
+            revision();
         }
+    }
 
 
     // LinkedHashMap을 활용하기 위한 저장 참조 메서드
