@@ -5,39 +5,50 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.*;
 
 public class DTO {
     Scanner sc = new Scanner(System.in);
     List<DAO> Membership = new ArrayList<>();
     int index = 0;
 
-    // 로그인, 회원가입 메서드
-    void SelectMenu(){
-        System.out.println("==================================================");
-        System.out.println("진행할 메뉴를 선택하세요\n");
-        System.out.println("[1] 회원 가입\t[2] 로그인");
-        System.out.println("==================================================");
-        int selectNum = sc.nextInt();
-        sc.nextLine();
 
-        switch (selectNum){
-            case 1:
-                SingUP();
-                break;
-            case 2:
-                Login();
-                break;
-            default:
+    // 로그인, 회원가입 메서드
+    void SelectMenu() throws InterruptedException {
+        while (true) {
+            System.out.println("==================================================");
+            System.out.println("진행할 메뉴를 선택하세요\n");
+            System.out.println("[1] 회원 가입\t[2] 로그인\t[3] 프로그램 종료");
+            System.out.println("==================================================");
+            String selectNum = sc.nextLine();
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
+            switch (selectNum) {
+                case "1":
+                    SingUP();
+                    break;
+                case "2":
+                    Login();
+                    break;
+                case "3":
+                    System.exit(0);
+                default:
+                    System.out.println("잘못 입력하셨습니다.");
+                    Thread.sleep(500);
+                    initializeConsole();
+                    break;
+            }
         }
     }
 
     // 로그인이 가능할 경우 활성화 되는 메서드
-    void SelectMenu2(String name){
+    void SelectMenu2(String name) throws InterruptedException {
         System.out.println("==================================================");
         System.out.printf("환영합니다 %s 님%n",name);
         System.out.println("==================================================");
         System.out.println("진행할 메뉴를 선택하세요\n");
-        System.out.println("[1] 회원 정보 확인\t[2] 회원 정보 수정\n[3] 회원 정보 삭제\n[4] 로그 아웃");
+        System.out.println("[1] 회원 정보 확인\t[2] 회원 정보 수정\n[3] 회원 탈퇴\n[4] 로그 아웃");
         System.out.println("==================================================");
         int selectNum = sc.nextInt();
         sc.nextLine();
@@ -60,7 +71,8 @@ public class DTO {
     }
 
     // 회원 가입
-    public void SingUP() {
+    public void SingUP() throws InterruptedException {
+        initializeConsole();
         System.out.println("==================================================");
         System.out.println("ID, PW를 입력하세요");
         System.out.println("==================================================");
@@ -69,6 +81,13 @@ public class DTO {
         dao.setID(InputID());
         dao.setPW(InputPW());
 
+        initializeConsole();
+        System.out.println("==================================================");
+        System.out.println("ID, PW가 정상적으로 입력 되었습니다.");
+        System.out.println("==================================================");
+        Thread.sleep(1000);
+
+        initializeConsole();
         System.out.println("==================================================");
         System.out.println("고객 정보를 입력하세요 (이름, 나이, 이메일, 주소)");
         System.out.println("==================================================");
@@ -78,21 +97,23 @@ public class DTO {
         dao.setAddress(InputAddress());
 
         Membership.add(dao);
-
+        initializeConsole();
         System.out.println("==================================================");
         System.out.println("회원 가입이 완료되었습니다.");
-        System.out.println("==================================================\n");
+        System.out.println("==================================================");
+        Thread.sleep(1000);
+        initializeConsole();
         SelectMenu();
     }
 
     // 로그인
-    public void Login(){
+    public void Login() throws InterruptedException {
         System.out.println("==================================================");
         System.out.println("로그인을 시도합니다.");
         System.out.println("==================================================");
         DAO dao = new DAO();
 
-        String a = InputID();
+        String a = LoginID();
         dao.setPW(LoginPW());
 
         System.out.println("==================================================");
@@ -109,7 +130,7 @@ public class DTO {
     }
 
     // 회원 정보 체크
-    public void CheckInfo(int Index){
+    public void CheckInfo(int Index) throws InterruptedException {
         while (true) {
             if (LoginPW().equals(Membership.get(Index).PW)) break;
             else
@@ -120,13 +141,14 @@ public class DTO {
     }
 
     // 회원 정보 수정
-    public void ChangeInfo(int Index){
+    public void ChangeInfo(int Index) throws InterruptedException {
         while (true) {
             if (LoginPW().equals(Membership.get(Index).PW)) break;
             else
                 System.out.println("비밀번호 인증에 실패했습니다.");
         }
 
+        boolean dataChanged = false;
         while (true) {
             System.out.println("==================================================");
             System.out.println("수정할 고객 정보를 선택하세요 ([1]이름, [2]나이, [3]이메일, [4]주소)");
@@ -150,12 +172,15 @@ public class DTO {
                     break;
                 case 5:
                     SelectMenu2(Membership.get(Index).name);
+                    return;
                 default:
 
             }
         }
     }
-    void DeleteInfo(int Index) {
+
+    // 회원 정보 삭제 관련 메서드
+    void DeleteInfo(int Index) throws InterruptedException {
         while (true) {
             if (LoginPW().equals(Membership.get(Index).PW)) break;
             else
@@ -187,7 +212,8 @@ public class DTO {
     // 로그인 관련 입력
     public String LoginID(){
         while (true) {
-            System.out.print("아이디를 입력하시오 (영문 & 숫자, 4 ~ 15자): ");
+            System.out.println("아이디를 입력하시오 (영문 & 숫자, 4 ~ 15자)");
+            System.out.print(">");
             String id = sc.nextLine();
 
             boolean check = false;
@@ -207,10 +233,10 @@ public class DTO {
             }
         }
     }
-
     public String LoginPW(){
         while (true) {
-            System.out.print("비밀번호를 입력하시오 (영문 & 숫자, 4 ~ 15자): ");
+            System.out.println("비밀번호를 입력하시오 (영문 & 숫자, 4 ~ 15자)");
+            System.out.print(">");
             String pw = sc.nextLine();
             boolean check = false;
             if(ValidateID(pw)) {
@@ -340,5 +366,8 @@ public class DTO {
         Pattern pattern = Pattern.compile("^[가-힣]{2,5}$");
         Matcher matcher = pattern.matcher(address);
         return matcher.matches();
+    }
+    void initializeConsole() {
+        System.out.print("\n".repeat(10));
     }
 }
