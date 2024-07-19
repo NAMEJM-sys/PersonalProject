@@ -71,7 +71,7 @@ public class UserManagement {
         System.out.printf("환영합니다 \"%s\" 유저님%n", name);
         System.out.println("==================================================");
         System.out.println("진행할 메뉴를 선택하세요\n");
-        System.out.println("도서 -> [1] 도서 대여   [2] 도서 반납   [3] 대여 확인\n프로필 -> [4]개인 정보 확인   [5]개인 정보 수정   [6]회원 탈퇴");
+        System.out.println("도서 -> [1] 도서 대여 - 미구현   [2] 도서 반납 - 미구현   [3] 대여 확인 - 미구현\n프로필 -> [4]개인 정보 확인   [5]개인 정보 수정   [6]회원 탈퇴");
         System.out.println("로그 아웃 -> [0] 메인 메뉴");
         System.out.println("==================================================");
         int selectNum = sc.nextInt();
@@ -104,7 +104,7 @@ public class UserManagement {
             System.out.printf("환영합니다 \"%s\"님%n", name);
             System.out.println("==================================================");
             System.out.println("진행할 메뉴를 선택하세요\n");
-            System.out.println("도서 관리 -> [1] 도서 확인   [2] 도서 추가   [3] 도서 파기 및 분실 처리   [4] 대여 관리(전체)\n유저 관리 -> [5] 유저 정보 확인(전체)   [6]유저 정지");
+            System.out.println("도서 관리 -> [1] 도서 확인   [2] 도서 추가   [3] 도서 파기 및 분실 처리   [4] 대여 관리(전체) - 미구현 \n유저 관리 -> [5] 유저 정보 확인(전체)   [6]유저 정지 - 미구현");
             System.out.println("로그 아웃 -> [0] 메인 메뉴");
             System.out.println("==================================================");
             String selectNum = sc.nextLine();
